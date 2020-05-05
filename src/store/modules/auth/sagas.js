@@ -1,4 +1,5 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
 
 import api from '../../../services/api';
 import history from '../../../services/history';
@@ -17,13 +18,14 @@ export function* signIn({ payload }) {
     const { token, user } = response.data;
 
     if (!user.admin) {
-      console.tron.log('Usuário não é administrador');
+      toast.error('Usuário não é administrador');
     }
 
     yield put(signInSuccess(token, user));
 
     history.push('/dashboard');
   } catch (err) {
+    toast.error('Falha na autenticação, verifique seus dados');
     yield put(signInFailure());
   }
 }
