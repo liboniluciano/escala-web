@@ -19,6 +19,8 @@ export function* signIn({ payload }) {
 
     if (!user.admin) {
       toast.error('Usuário não é administrador');
+      yield put(signInFailure());
+      return;
     }
 
     yield put(signInSuccess(token, user));
